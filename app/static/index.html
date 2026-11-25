@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reco — Discover what you love</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="announcement">✨ Smart picks, made just for you <span>Free shipping on demo orders over ₹999</span></div>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">r</span> reco<span class="brand-dot">.</span></a>
+  <nav class="main-nav"><a class="active" href="#home">Home</a><a href="#recommendations">For you</a><a href="#catalog">Shop all</a></nav>
+  <div class="header-actions">
+    <label class="searchbox"><span>⌕</span><input id="search" placeholder="Search products..." autocomplete="off"><kbd>⌘ K</kbd></label>
+    <button class="icon-btn" id="wishlist-open" title="Wishlist" aria-label="Wishlist">♡<span class="counter" id="wish-count">0</span></button>
+    <button class="icon-btn bag-btn" id="cart-open" title="Shopping bag" aria-label="Shopping bag">♧<span class="counter" id="cart-count">0</span></button>
+    <button class="profile-btn" id="profile-open"><span class="avatar">U</span><span class="profile-label">My account</span><span>⌄</span></button>
+  </div>
+</header>
+<main class="page">
+<section class="hero" id="home">
+ <div class="hero-copy"><p class="eyebrow">YOUR PERSONAL SHOPPING ASSISTANT</p><h1>Good finds.<br><em>Great choices.</em></h1><p class="hero-text">Discover products picked around your taste. Less scrolling, more finding what you love.</p><a class="primary-btn" href="#catalog">Explore collection <span>↗</span></a><div class="hero-proof"><div class="proof-avatars"><i>J</i><i>A</i><i>M</i></div><span><b>Personalized for you</b><br>Recommendations that get better with every interaction</span></div></div>
+ <div class="hero-art"><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="hero-product hero-product-one"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&auto=format&fit=crop&q=85" alt="Wireless headphones"></div><div class="hero-product hero-product-two"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=85" alt="Smart watch"></div><div class="floating-note">✦ Curated for you</div><div class="hero-spark">✳</div></div>
+</section>
+<section class="trust-row"><div><b>✦</b> Personalized picks</div><div><b>♡</b> Save your favourites</div><div><b>↗</b> Easy, seamless shopping</div><div><b>⌁</b> Discover something new</div></section>
+<section class="section" id="recommendations">
+ <div class="section-heading"><div><p class="eyebrow">A LITTLE SOMETHING FOR YOU</p><h2>Picked for your taste<span>.</span></h2><p class="section-sub">Based on your interests and shopping activity.</p></div><div class="rec-controls"><label>Shopping as <select id="user"></select></label><label>Style <select id="method"><option value="hybrid">Smart mix</option><option value="content">Similar products</option><option value="collaborative">People like you</option><option value="popular">Popular picks</option></select></label></div></div>
+ <div id="recommendations-list" class="product-grid"><div class="loading">Finding your picks…</div></div>
+</section>
+<section class="section catalog-section" id="catalog">
+ <div class="section-heading"><div><p class="eyebrow">THE GOOD STUFF</p><h2>Explore the collection<span>.</span></h2><p class="section-sub">Thoughtful finds across the things you love.</p></div><div class="catalog-tools"><select id="category"><option value="All">All categories</option></select><select id="sort"><option value="featured">Featured</option><option value="az">Name: A–Z</option></select></div></div>
+ <div class="category-pills" id="category-pills"></div>
+ <div id="products" class="product-grid"></div>
+</section>
+<section class="newsletter"><div><p class="eyebrow">A GOOD THING IN YOUR INBOX</p><h2>Stay in the know<span>.</span></h2><p>Get fresh finds and thoughtful recommendations.</p></div><form id="newsletter-form"><input type="email" placeholder="Your email address" required><button class="primary-btn">Join the list ↗</button></form></section>
+<footer><a class="brand" href="#"><span class="brand-mark">r</span> reco<span class="brand-dot">.</span></a><span>Thoughtful shopping, powered by AI.</span><span>Built with Python · FastAPI · scikit-learn</span></footer>
+</main>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cart-drawer"><div class="drawer-head"><div><p class="eyebrow">YOUR PICKS</p><h2>Shopping bag <span id="drawer-count">(0)</span></h2></div><button class="close-btn" data-close>×</button></div><div class="drawer-content" id="cart-items"></div><div class="drawer-foot"><div class="subtotal"><span>Subtotal</span><b id="subtotal">₹0</b></div><p>Shipping and taxes calculated at checkout.</p><button class="primary-btn checkout-btn" id="checkout">Continue to checkout <span>→</span></button><small>Demo experience — no payment will be collected.</small></div></aside>
+<aside class="drawer" id="wishlist-drawer"><div class="drawer-head"><div><p class="eyebrow">SAVED FOR LATER</p><h2>Your wishlist</h2></div><button class="close-btn" data-close>×</button></div><div class="drawer-content" id="wishlist-items"></div></aside>
+<div class="modal-wrap" id="profile-modal"><div class="modal"><button class="close-btn modal-close" data-close>×</button><div class="profile-large">U</div><p class="eyebrow">YOUR SPACE</p><h2>Welcome back!</h2><p class="section-sub">Manage your shopping profile and recommendation preferences.</p><label class="modal-label">Active shopper<select id="profile-user"></select></label><div class="profile-stats"><div><b id="profile-cart">0</b><span>In your bag</span></div><div><b id="profile-wish">0</b><span>Saved items</span></div></div><button class="primary-btn full" id="save-profile">Save profile</button><button class="quick-btn full" id="my-orders" type="button" style="margin-top:9px;padding:11px">My orders</button><button class="signout-btn" id="signout">Sign out</button><p class="demo-note">Your signed-in account is stored in the local SQLite database.</p></div></div>
+
+<div class="modal-wrap" id="auth-modal"><div class="modal auth-modal">
+ <button class="close-btn modal-close" data-close>×</button>
+ <div class="profile-large">r</div><p class="eyebrow">YOUR RECO ACCOUNT</p>
+ <h2 id="auth-title">Welcome back.</h2><p class="section-sub" id="auth-subtitle">Sign in to save your picks and personalize your experience.</p>
+ <div class="auth-tabs"><button class="auth-tab active" id="login-tab">Sign in</button><button class="auth-tab" id="register-tab">Create account</button></div>
+ <form id="auth-form" class="auth-form">
+  <label id="name-field" class="auth-field hidden">Full name<input id="auth-name" type="text" minlength="2" maxlength="80" placeholder="Your name"></label>
+  <label class="auth-field">Email address<input id="auth-email" type="email" required placeholder="you@example.com" autocomplete="email"></label>
+  <label class="auth-field">Password<input id="auth-password" type="password" required minlength="8" placeholder="At least 8 characters" autocomplete="current-password"></label>
+  <p class="auth-error" id="auth-error"></p>
+  <button class="primary-btn full" id="auth-submit" type="submit">Sign in <span>→</span></button>
+ </form>
+ <p class="demo-note">Your account is stored locally in this project's SQLite database. Use a unique password for this demo.</p>
+</div></div>
+
+
+
+<div class="modal-wrap" id="checkout-modal"><div class="modal checkout-modal">
+ <button class="close-btn modal-close" data-close>×</button>
+ <p class="eyebrow">ALMOST YOURS</p><h2>Checkout</h2>
+ <p class="section-sub">Review your items before placing the order.</p>
+ <div id="checkout-content" class="checkout-content"></div>
+</div></div>
+
+<div class="modal-wrap" id="order-success-modal"><div class="modal checkout-modal">
+ <button class="close-btn modal-close" data-close>×</button>
+ <div id="order-success-content"></div>
+</div></div>
+
+<div class="modal-wrap" id="orders-modal"><div class="modal orders-modal">
+ <button class="close-btn modal-close" data-close>×</button>
+ <p class="eyebrow">YOUR SHOPPING HISTORY</p><h2>My orders</h2>
+ <div id="orders-content" class="orders-content"><p class="loading">Loading…</p></div>
+</div></div>
+
+<style>
+.checkout-modal,.orders-modal{max-height:90vh;overflow:auto;text-align:left}
+.checkout-modal>.eyebrow,.checkout-modal>h2,.checkout-modal>.section-sub,.orders-modal>.eyebrow,.orders-modal>h2{text-align:center}
+.checkout-content,.orders-content{margin-top:20px}
+.checkout-summary,.order-card{background:#f7f8f4;border:1px solid #e9ede5;border-radius:11px;padding:14px;margin:14px 0}
+.checkout-row,.checkout-total,.order-card-top,.order-card-meta{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;font-size:11px;color:#687566}
+.checkout-row b,.checkout-total b{color:#304735}
+.checkout-total{border-top:1px solid #e2e8de;margin-top:8px;padding-top:13px;font-size:13px}
+.checkout-total b{font-size:17px}
+.checkout-payment{padding:13px;border:1px solid #e7ebe3;border-radius:9px;margin:14px 0;color:#405443;font-size:11px}
+.checkout-payment p{margin:7px 0 3px}.checkout-payment small{color:#92998e}
+.order-card-top{padding-top:0}.order-status{font-size:9px;text-transform:capitalize;border-radius:20px;padding:5px 9px;background:#e8eee3;color:#466044}
+.order-status.cancelled{background:#f5e9e7;color:#a35c53}
+.order-card-actions{display:flex;gap:8px;margin-top:9px}
+.cancel-order-btn{color:#a35c53}
+.order-success-mark{width:52px;height:52px;border-radius:50%;background:#e5eee1;color:#426442;display:grid;place-items:center;font-size:27px;margin:0 auto 15px}
+.order-id-box{background:#f4f6f1;border-radius:9px;padding:12px;margin:18px 0;display:grid;gap:5px;text-align:center}
+.order-id-box span{font-size:9px;color:#92998e}.order-id-box b{font-size:12px;color:#304735;overflow-wrap:anywhere}
+.orders-modal{width:min(520px,100%)}
+@media(max-width:520px){.checkout-modal,.orders-modal{padding:25px 18px}.order-card-actions{flex-wrap:wrap}}
+</style>
+
+<div class="toast" id="toast"></div>
+<script src="/static/app.js"></script>
+</body></html>
